@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jack-2048
+spec:
+  selector:
+    matchLabels:
+      application: jack-2048
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 70%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        application: jack-2048
+    spec:
+      containers:
+      - image: hub.ecns.io/library/jack-2048:latest
+        imagePullPolicy: IfNotPresent
+        name: jack-2048
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-2048
+  labels:
+    application: jack-2048
+spec:
+  ports:
+  - name: port-2048
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    application: jack-2048
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ing-2048
+spec:
+  rules:
+  - host: 2048.easystack.cn
+    http:
+      paths:
+      - backend:
+          serviceName: svc-2048
+          servicePort: 8080
+
