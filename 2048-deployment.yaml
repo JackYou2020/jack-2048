@@ -52,5 +52,5 @@ spec:
       paths:
       - backend:
           serviceName: svc-2048
-          servicePort: 8080
+          servicePort: 80
 
