@@ -1,4 +1,4 @@
-FROM hub.easystack.io/arm64v8/alpine:3.12
+FROM hub.ecns.io/library/alpine:latest
 
 MAINTAINER alex <alexwhen@gmail.com> 
 
