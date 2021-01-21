@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jack-2048-test
+spec:
+  selector:
+    matchLabels:
+      application: jack-2048-test
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 70%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        application: jack-2048-test
+    spec:
+      containers:
+      - image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        imagePullPolicy: IfNotPresent
+        name: jack-2048-test
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-2048-test
+  labels:
+    application: jack-2048-test
+spec:
+  ports:
+  - name: port-2048-test
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    application: jack-2048-test
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ing-2048-test
+spec:
+  rules:
+  - host: 2048-test.easystack.cn
+    http:
+      paths:
+      - backend:
+          serviceName: svc-2048-test
+          servicePort: 80
+
