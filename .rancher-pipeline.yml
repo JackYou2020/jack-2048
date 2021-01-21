@@ -5,13 +5,11 @@ stages:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: example/app1
-      pushRemote: true
       registry: 127.0.0.1:34557
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: example/app2
-      pushRemote: true
       registry: 127.0.0.1:34557
 - name: deploy
   steps:
