@@ -1,4 +1,18 @@
 ---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox1
+spec:
+  containers:
+  - name: busybox
+    image: busybox:${DEVOPS_IMAGE_TAG}
+    command:
+      - sleep
+      - "3600"
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,7 +32,7 @@ spec:
         application: jack-2048
     spec:
       containers:
-      - image: ${DEVOPS_IMAGE_NAME}
+      - image: jack-2048:${DEVOPS_IMAGE_TAG}
         imagePullPolicy: IfNotPresent
         name: jack-2048
         ports:
