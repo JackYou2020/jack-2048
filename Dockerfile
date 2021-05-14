@@ -1,8 +1,6 @@
 FROM alpine:latest
 
-MAINTAINER alex <alexwhen@gmail.com> 
-
-RUN apk --update add nginx && mkdir /run/nginx
+RUN apk --update add nginx && /run/nginx
 
 COPY 2048 /var/lib/nginx/html/
 
